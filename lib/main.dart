@@ -8,11 +8,18 @@ import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(
+      options: const FirebaseOptions(
+    apiKey: "AIzaSyB5A1pSHVM_niHDL0N-_XJIYBN5az7z16Q",
+    appId: "1:387257112747:android:30056c26c5bde72c64ffee",
+    messagingSenderId: "387257112747",
+    projectId: "cookpal-ec834",
+  ));
   await PreferenceUtils.init();
   runApp(
     DevicePreview(
@@ -22,26 +29,15 @@ main() async {
   );
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return AdaptiveTheme(
       light: ThemeData(
         useMaterial3: false,
@@ -56,17 +52,17 @@ class _MyAppState extends State<MyApp> {
         drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
       ),
       initial: AdaptiveThemeMode.system,
-      builder: (theme, darkTheme) => ResponsiveSizer(
-        builder: (context, orientation, screenType) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            locale: DevicePreview.locale(context),
-            builder: DevicePreview.appBuilder,
-            theme: theme,
-            darkTheme: darkTheme,
-            home: homeScreen(),
-          );
-        },
+      builder: (theme, darkTheme) => ScreenUtilInit(
+        designSize: Size(MediaQuery.of(context).size.width,
+            MediaQuery.of(context).size.height),
+        builder: (context, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          locale: DevicePreview.locale(context),
+          builder: DevicePreview.appBuilder,
+          theme: theme,
+          darkTheme: darkTheme,
+          home: homeScreen(),
+        ),
       ),
     );
   }

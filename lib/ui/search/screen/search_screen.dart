@@ -3,10 +3,11 @@ import 'package:cookpal/ui/search/manager/search_cubit.dart';
 import 'package:cookpal/ui/search/manager/search_state.dart';
 import 'package:cookpal/utils/app_toast.dart';
 import 'package:cookpal/utils/colors.dart';
+import 'package:cookpal/utils/determine_margin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({super.key});
@@ -40,7 +41,7 @@ class _SearchScreenState extends State<SearchScreen> {
             icon: Icon(
               Icons.arrow_back_ios_new_rounded,
               color: Colors.grey[400],
-              size: 22.sp,
+              size: 22.r,
             ),
           ),
           title: Text(
@@ -63,7 +64,10 @@ class _SearchScreenState extends State<SearchScreen> {
           buildWhen: (previous, current) => current is SearchSuccess,
           builder: (context, state) {
             return ListView(
-              padding: EdgeInsets.all(15.sp),
+              padding: EdgeInsets.symmetric(
+                vertical: 14.h,
+                horizontal: determineMargin() ? 300.w : 15.w,
+              ),
               physics: const BouncingScrollPhysics(),
               children: [
                 TextFormField(
@@ -78,24 +82,24 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: secondaryColor,
                     ),
                     focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.sp),
+                      borderRadius: BorderRadius.circular(16.r),
                       borderSide: const BorderSide(color: secondaryColor),
                     ),
                     enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.sp),
+                      borderRadius: BorderRadius.circular(16.r),
                       borderSide: const BorderSide(color: secondaryColor),
                     ),
                     errorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.sp),
+                      borderRadius: BorderRadius.circular(16.r),
                       borderSide: const BorderSide(color: Colors.red),
                     ),
                     focusedErrorBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(16.sp),
+                      borderRadius: BorderRadius.circular(16.r),
                       borderSide: const BorderSide(color: Colors.red),
                     ),
                   ),
                 ),
-                SizedBox(height: 20.sp),
+                SizedBox(height: 20.h),
                 recipeItemBuilder(),
               ],
             );
@@ -124,10 +128,11 @@ class _SearchScreenState extends State<SearchScreen> {
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 10.sp),
+            height: 250.h,
+            margin: EdgeInsets.symmetric(vertical: 10.h),
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18.sp),
+              borderRadius: BorderRadius.circular(18.r),
             ),
             child: Stack(
               children: [
@@ -138,11 +143,15 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(14.sp),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 14.h,
+                    horizontal: 14.w,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -156,21 +165,23 @@ class _SearchScreenState extends State<SearchScreen> {
                             ),
                             Text(
                               cubit.recipes[index].description,
+                              maxLines: 5,
                               style: TextStyle(
-                                height: 5.2.sp,
+                                height: 1.4.h,
                                 color: Colors.white38,
                                 fontSize: 16.sp,
+                                overflow: TextOverflow.fade,
                               ),
                             ),
-                            SizedBox(height: 15.sp),
+                            SizedBox(height: 15.h),
                             Row(
                               children: [
                                 Icon(
                                   Icons.watch_later_outlined,
                                   color: primaryIconColor,
-                                  size: 18.sp,
+                                  size: 18.r,
                                 ),
-                                SizedBox(width: 10.sp),
+                                SizedBox(width: 10.w),
                                 Text(
                                   cubit.recipes[index].time,
                                   style: TextStyle(
@@ -178,13 +189,17 @@ class _SearchScreenState extends State<SearchScreen> {
                                     fontSize: 16.sp,
                                   ),
                                 ),
-                                SizedBox(width: 10.sp),
+                              ],
+                            ),
+                            SizedBox(width: 10.w),
+                            Row(
+                              children: [
                                 Icon(
                                   FontAwesomeIcons.kitchenSet,
                                   color: primaryIconColor,
-                                  size: 18.sp,
+                                  size: 18.r,
                                 ),
-                                SizedBox(width: 10.sp),
+                                SizedBox(width: 10.w),
                                 Text(
                                   cubit.recipes[index].level,
                                   style: TextStyle(

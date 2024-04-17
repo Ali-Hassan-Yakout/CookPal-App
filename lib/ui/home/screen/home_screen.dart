@@ -13,10 +13,11 @@ import 'package:cookpal/ui/recipe/screen/recipe_screen.dart';
 import 'package:cookpal/ui/search/screen/search_screen.dart';
 import 'package:cookpal/utils/app_toast.dart';
 import 'package:cookpal/utils/colors.dart';
+import 'package:cookpal/utils/determine_margin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -78,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 elevation: 0,
                 iconTheme: IconThemeData(
                   color: Colors.grey[400],
-                  size: 22.sp,
+                  size: 22.r,
                 ),
                 actions: [
                   IconButton(
@@ -107,8 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       decoration: BoxDecoration(
                         color: secondaryColor,
                         borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(20.sp),
-                          bottomLeft: Radius.circular(20.sp),
+                          bottomRight: Radius.circular(20.r),
+                          bottomLeft: Radius.circular(20.r),
                         ),
                       ),
                       child: UserAccountsDrawerHeader(
@@ -140,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? Icons.sunny
                                 : Icons.nightlight_outlined,
                             color: secondaryColor,
-                            size: 22.sp,
+                            size: 22.r,
                           ),
                           title: Text(
                             ' Change theme ',
@@ -159,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       leading: Icon(
                         Icons.favorite_border_outlined,
                         color: secondaryColor,
-                        size: 22.sp,
+                        size: 22.r,
                       ),
                       title: Text(
                         ' Favorite ',
@@ -181,7 +182,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       leading: Icon(
                         Icons.logout,
                         color: secondaryColor,
-                        size: 22.sp,
+                        size: 22.r,
                       ),
                       title: Text(
                         'LogOut',
@@ -199,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               body: ListView(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 15.sp,
+                  horizontal: determineMargin() ? 300.w : 15.w,
                 ),
                 physics: const BouncingScrollPhysics(),
                 children: [
@@ -212,9 +213,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontFamily: 'playFairDisplay',
                     ),
                   ),
-                  SizedBox(height: 20.sp),
+                  SizedBox(height: 20.h),
                   SizedBox(
-                    height: 70.sp,
+                    height: 250.h,
                     width: MediaQuery.of(context).size.width,
                     child: Stack(
                       children: [
@@ -228,8 +229,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         ),
                         Positioned(
-                          bottom: 20.sp,
-                          right: 20.sp,
+                          bottom: 20.h,
+                          right: 20.w,
                           child: SmoothPageIndicator(
                             controller: pageController,
                             // PageController
@@ -237,15 +238,15 @@ class _HomeScreenState extends State<HomeScreen> {
                             effect: SlideEffect(
                               activeDotColor: primaryIconColor,
                               dotColor: secondaryIconColor,
-                              dotHeight: 12.sp,
-                              dotWidth: 12.sp,
+                              dotHeight: 12.h,
+                              dotWidth: 12.r,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20.sp),
+                  SizedBox(height: 20.h),
                   Text(
                     "Categories",
                     style: TextStyle(
@@ -255,9 +256,9 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontFamily: 'playFairDisplay',
                     ),
                   ),
-                  SizedBox(height: 20.sp),
+                  SizedBox(height: 20.h),
                   categoriesItemBuilder(),
-                  SizedBox(height: 20.sp),
+                  SizedBox(height: 20.h),
                   Text(
                     "Recipes",
                     style: TextStyle(
@@ -267,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontFamily: 'playFairDisplay',
                     ),
                   ),
-                  SizedBox(height: 20.sp),
+                  SizedBox(height: 20.h),
                   recipeItemBuilder(),
                 ],
               ),
@@ -292,10 +293,10 @@ class _HomeScreenState extends State<HomeScreen> {
       highlightColor: Colors.transparent,
       splashColor: Colors.transparent,
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 5.sp),
+        margin: EdgeInsets.symmetric(horizontal: 5.w),
         clipBehavior: Clip.hardEdge,
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(18.sp),
+          borderRadius: BorderRadius.circular(18.r),
         ),
         child: Stack(
           children: [
@@ -306,7 +307,10 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(14.sp),
+              padding: EdgeInsets.symmetric(
+                vertical: 14.h,
+                horizontal: 14.w,
+              ),
               child: Row(
                 children: [
                   Expanded(
@@ -325,21 +329,23 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         Text(
                           cubit.discover[position].description,
+                          maxLines: 5,
                           style: TextStyle(
-                            height: 5.2.sp,
+                            height: 1.4.h,
                             color: Colors.white38,
                             fontSize: 16.sp,
+                            overflow: TextOverflow.fade,
                           ),
                         ),
-                        SizedBox(height: 15.sp),
+                        SizedBox(height: 15.h),
                         Row(
                           children: [
                             Icon(
                               Icons.watch_later_outlined,
                               color: primaryIconColor,
-                              size: 18.sp,
+                              size: 18.r,
                             ),
-                            SizedBox(width: 10.sp),
+                            SizedBox(width: 10.w),
                             Text(
                               cubit.discover[position].time,
                               style: TextStyle(
@@ -347,13 +353,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                 fontSize: 16.sp,
                               ),
                             ),
-                            SizedBox(width: 10.sp),
+                          ],
+                        ),
+                        SizedBox(height: 10.h),
+                        Row(
+                          children: [
                             Icon(
                               FontAwesomeIcons.kitchenSet,
                               color: primaryIconColor,
-                              size: 18.sp,
+                              size: 18.r,
                             ),
-                            SizedBox(width: 10.sp),
+                            SizedBox(width: 10.w),
                             Text(
                               cubit.discover[position].level,
                               style: TextStyle(
@@ -382,7 +392,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget categoriesItemBuilder() {
     return SizedBox(
-      height: 45.sp,
+      height: 120.h,
       child: ListView.builder(
         physics: const BouncingScrollPhysics(),
         itemCount: cubit.categories.length,
@@ -401,11 +411,11 @@ class _HomeScreenState extends State<HomeScreen> {
             highlightColor: Colors.transparent,
             splashColor: Colors.transparent,
             child: Container(
-              width: 55.sp,
-              margin: EdgeInsets.only(right: 10.sp),
+              width: 180.w,
+              margin: EdgeInsets.only(right: 10.w),
               clipBehavior: Clip.hardEdge,
               decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(18.sp),
+                borderRadius: BorderRadius.circular(18.r),
               ),
               child: Stack(
                 children: [
@@ -420,10 +430,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                   Positioned.fill(
                     child: Container(
-                      padding: EdgeInsets.all(18.sp),
+                      padding: EdgeInsets.symmetric(
+                        vertical: 18.h,
+                        horizontal: 18.w,
+                      ),
                       alignment: Alignment.bottomLeft,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(18.sp),
+                        borderRadius: BorderRadius.circular(18.r),
                         gradient: const LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
@@ -471,10 +484,11 @@ class _HomeScreenState extends State<HomeScreen> {
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 10.sp),
+            height: 250.h,
+            margin: EdgeInsets.symmetric(vertical: 10.h),
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18.sp),
+              borderRadius: BorderRadius.circular(18.r),
             ),
             child: Stack(
               children: [
@@ -485,11 +499,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(14.sp),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 14.h,
+                    horizontal: 14.w,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -503,21 +521,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             Text(
                               cubit.recipes[index].description,
+                              maxLines: 5,
                               style: TextStyle(
-                                height: 5.2.sp,
+                                height: 1.2.h,
                                 color: Colors.white38,
                                 fontSize: 16.sp,
+                                overflow: TextOverflow.fade,
                               ),
                             ),
-                            SizedBox(height: 15.sp),
+                            SizedBox(height: 15.h),
                             Row(
                               children: [
                                 Icon(
                                   Icons.watch_later_outlined,
                                   color: primaryIconColor,
-                                  size: 18.sp,
+                                  size: 18.r,
                                 ),
-                                SizedBox(width: 10.sp),
+                                SizedBox(width: 10.w),
                                 Text(
                                   cubit.recipes[index].time,
                                   style: TextStyle(
@@ -525,13 +545,17 @@ class _HomeScreenState extends State<HomeScreen> {
                                     fontSize: 16.sp,
                                   ),
                                 ),
-                                SizedBox(width: 10.sp),
+                              ],
+                            ),
+                            SizedBox(height: 10.w),
+                            Row(
+                              children: [
                                 Icon(
                                   FontAwesomeIcons.kitchenSet,
                                   color: primaryIconColor,
-                                  size: 18.sp,
+                                  size: 18.r,
                                 ),
-                                SizedBox(width: 10.sp),
+                                SizedBox(width: 10.w),
                                 Text(
                                   cubit.recipes[index].level,
                                   style: TextStyle(
