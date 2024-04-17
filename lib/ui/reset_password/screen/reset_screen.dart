@@ -2,9 +2,10 @@ import 'package:cookpal/ui/reset_password/manager/reset_password_cubit.dart';
 import 'package:cookpal/ui/reset_password/manager/reset_password_state.dart';
 import 'package:cookpal/utils/app_toast.dart';
 import 'package:cookpal/utils/colors.dart';
+import 'package:cookpal/utils/determine_margin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
@@ -52,15 +53,18 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    padding: EdgeInsets.all(15.sp),
+                    padding: EdgeInsets.symmetric(
+                      vertical: 15.h,
+                      horizontal: 15.w,
+                    ),
                     margin: EdgeInsets.only(
-                      bottom: 20.sp,
-                      left: 20.sp,
-                      right: 20.sp,
+                      bottom: 25.h,
+                      left: determineMargin() ? 300.w : 30.w,
+                      right: determineMargin() ? 300.w : 30.w,
                     ),
                     decoration: BoxDecoration(
                       color: primaryColor,
-                      borderRadius: BorderRadius.circular(16.sp),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Form(
                       key: formKey,
@@ -76,7 +80,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               fontFamily: 'playFairDisplay',
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          SizedBox(height: 20.h),
                           TextFormField(
                             controller: emailController,
                             validator: (value) {
@@ -108,10 +112,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.sp),
+                          SizedBox(height: 30.h),
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            height: 30.sp,
+                            height: 50.h,
                             child: ElevatedButton(
                               onPressed: () {
                                 cubit.resetPassword(
@@ -122,7 +126,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: secondaryColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.sp),
+                                  borderRadius: BorderRadius.circular(16.r),
                                 ),
                               ),
                               child: Text(

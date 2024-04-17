@@ -3,11 +3,12 @@ import 'package:cookpal/ui/favorite/manager/favorite_state.dart';
 import 'package:cookpal/ui/recipe/screen/recipe_screen.dart';
 import 'package:cookpal/utils/app_toast.dart';
 import 'package:cookpal/utils/colors.dart';
+import 'package:cookpal/utils/determine_margin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:lottie/lottie.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class FavoriteScreen extends StatefulWidget {
   const FavoriteScreen({super.key});
@@ -38,40 +39,40 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
         buildWhen: (previous, current) => current is GetFavoriteSuccess,
         builder: (context, state) {
           return Scaffold(
-                  appBar: AppBar(
-                    automaticallyImplyLeading: false,
-                    elevation: 0,
-                    leading: IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      highlightColor: Colors.transparent,
-                      splashColor: Colors.transparent,
-                      icon: Icon(
-                        Icons.arrow_back_ios_new_rounded,
-                        color: Colors.grey[400],
-                        size: 22.sp,
-                      ),
+            appBar: AppBar(
+              automaticallyImplyLeading: false,
+              elevation: 0,
+              leading: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                highlightColor: Colors.transparent,
+                splashColor: Colors.transparent,
+                icon: Icon(
+                  Icons.arrow_back_ios_new_rounded,
+                  color: Colors.grey[400],
+                  size: 22.r,
+                ),
+              ),
+              title: Text(
+                "Favorite",
+                style: TextStyle(
+                  color: secondaryColor,
+                  fontSize: 22.sp,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'playFairDisplay',
+                ),
+              ),
+              centerTitle: true,
+            ),
+            body: cubit.loading
+                ? Center(
+                    child: Lottie.asset(
+                      'assets/animations/loading.json',
                     ),
-                    title: Text(
-                      "Favorite",
-                      style: TextStyle(
-                        color: secondaryColor,
-                        fontSize: 22.sp,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'playFairDisplay',
-                      ),
-                    ),
-                    centerTitle: true,
-                  ),
-                  body: cubit.loading
-                      ? Center(
-                          child: Lottie.asset(
-                            'assets/animations/loading.json',
-                          ),
-                        )
-                      : recipeItemBuilder(),
-                );
+                  )
+                : recipeItemBuilder(),
+          );
         },
       ),
     );
@@ -80,7 +81,10 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
   Widget recipeItemBuilder() {
     return ListView.builder(
       physics: const BouncingScrollPhysics(),
-      padding: EdgeInsets.all(14.sp),
+      padding: EdgeInsets.symmetric(
+        vertical: 14.h,
+        horizontal: determineMargin() ? 300.w : 15.w,
+      ),
       itemCount: cubit.recipes.length,
       itemBuilder: (context, index) {
         return InkWell(
@@ -96,10 +100,11 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
           child: Container(
-            margin: EdgeInsets.symmetric(vertical: 10.sp),
+            height: 250.h,
+            margin: EdgeInsets.symmetric(vertical: 10.h),
             clipBehavior: Clip.hardEdge,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(18.sp),
+              borderRadius: BorderRadius.circular(18.r),
             ),
             child: Stack(
               children: [
@@ -110,11 +115,15 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(15.sp),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 15.h,
+                    horizontal: 15.w,
+                  ),
                   child: Row(
                     children: [
                       Expanded(
                         child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
@@ -128,21 +137,23 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                             ),
                             Text(
                               cubit.recipes[index].description,
+                              maxLines: 5,
                               style: TextStyle(
-                                height: 5.2.sp,
+                                height: 1.4.h,
                                 color: Colors.white38,
                                 fontSize: 16.sp,
+                                overflow: TextOverflow.fade,
                               ),
                             ),
-                            SizedBox(height: 15.sp),
+                            SizedBox(height: 15.h),
                             Row(
                               children: [
                                 Icon(
                                   Icons.watch_later_outlined,
                                   color: primaryIconColor,
-                                  size: 18.sp,
+                                  size: 18.r,
                                 ),
-                                SizedBox(width: 10.sp),
+                                SizedBox(width: 10.w),
                                 Text(
                                   cubit.recipes[index].time,
                                   style: TextStyle(
@@ -150,13 +161,13 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                     fontSize: 16.sp,
                                   ),
                                 ),
-                                SizedBox(width: 10.sp),
+                                SizedBox(width: 10.w),
                                 Icon(
                                   FontAwesomeIcons.kitchenSet,
                                   color: primaryIconColor,
-                                  size: 18.sp,
+                                  size: 18.r,
                                 ),
-                                SizedBox(width: 10.sp),
+                                SizedBox(width: 10.w),
                                 Text(
                                   cubit.recipes[index].level,
                                   style: TextStyle(

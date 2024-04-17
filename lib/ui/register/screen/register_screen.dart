@@ -3,9 +3,10 @@ import 'package:cookpal/ui/register/manager/register_cubit.dart';
 import 'package:cookpal/ui/register/manager/register_state.dart';
 import 'package:cookpal/utils/app_toast.dart';
 import 'package:cookpal/utils/colors.dart';
+import 'package:cookpal/utils/determine_margin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -60,15 +61,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 Expanded(
                   flex: 3,
                   child: Container(
-                    padding: EdgeInsets.all(15.sp),
+                    padding: EdgeInsets.all(15.r),
                     margin: EdgeInsets.only(
-                      bottom: 20.sp,
-                      left: 20.sp,
-                      right: 20.sp,
+                      bottom: 25.h,
+                      left: determineMargin() ? 300.w : 30.w,
+                      right: determineMargin() ? 300.w : 30.w,
                     ),
                     decoration: BoxDecoration(
                       color: primaryColor,
-                      borderRadius: BorderRadius.circular(16.sp),
+                      borderRadius: BorderRadius.circular(16.r),
                     ),
                     child: Form(
                       key: formKey,
@@ -84,7 +85,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontFamily: 'playFairDisplay',
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          SizedBox(height: 20.h),
                           TextFormField(
                             controller: userNameController,
                             validator: (value) {
@@ -116,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.sp),
+                          SizedBox(height: 30.h),
                           Text(
                             "Email",
                             style: TextStyle(
@@ -126,7 +127,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontFamily: 'playFairDisplay',
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          SizedBox(height: 20.h),
                           TextFormField(
                             controller: emailController,
                             validator: (value) {
@@ -158,7 +159,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.sp),
+                          SizedBox(height: 30.h),
                           Text(
                             "Password",
                             style: TextStyle(
@@ -168,7 +169,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontFamily: 'playFairDisplay',
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          SizedBox(height: 20.h),
                           TextFormField(
                             controller: passwordController,
                             validator: (value) {
@@ -201,7 +202,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 30.sp),
+                          SizedBox(height: 30.h),
                           Text(
                             "Confirm Password",
                             style: TextStyle(
@@ -211,7 +212,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               fontFamily: 'playFairDisplay',
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          SizedBox(height: 20.h),
                           BlocBuilder<RegisterCubit, RegisterState>(
                             buildWhen: (previous, current) =>
                                 current is ObscureChange,
@@ -266,10 +267,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               );
                             },
                           ),
-                          SizedBox(height: 30.sp),
+                          SizedBox(height: 30.h),
                           SizedBox(
                             width: MediaQuery.of(context).size.width,
-                            height: 30.sp,
+                            height: 50.h,
                             child: ElevatedButton(
                               onPressed: () {
                                 cubit.register(
@@ -281,7 +282,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: secondaryColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16.sp),
+                                  borderRadius: BorderRadius.circular(16.r),
                                 ),
                               ),
                               child: Text(
@@ -295,7 +296,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               ),
                             ),
                           ),
-                          SizedBox(height: 20.sp),
+                          SizedBox(height: 20.h),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
@@ -316,9 +317,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                     (route) => false,
                                   );
                                 },
-                                child: const Text(
+                                child: Text(
                                   'Login',
-                                  style: TextStyle(color: secondaryColor),
+                                  style: TextStyle(
+                                    color: secondaryColor,
+                                    fontSize: 16.sp,
+                                  ),
                                 ),
                               ),
                             ],

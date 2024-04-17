@@ -3,8 +3,8 @@ import 'package:cookpal/ui/register/screen/register_screen.dart';
 import 'package:cookpal/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_onboarding_slider/flutter_onboarding_slider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
-import 'package:responsive_sizer/responsive_sizer.dart';
 
 class AppOnBoarding extends StatelessWidget {
   const AppOnBoarding({super.key});
@@ -41,7 +41,7 @@ class AppOnBoarding extends StatelessWidget {
         ),
         finishButtonStyle: FinishButtonStyle(
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16.sp),
+            borderRadius: BorderRadius.circular(16.r),
           ),
           backgroundColor: secondaryColor,
         ),
@@ -61,29 +61,17 @@ class AppOnBoarding extends StatelessWidget {
         ),
         centerBackground: true,
         pageBackgroundColor: primaryColor,
-        background: [
-          Lottie.asset(
-            'assets/animations/slide_1.json',
-            fit: BoxFit.contain,
-          ),
-          Lottie.asset(
-            'assets/animations/slide_2.json',
-            fit: BoxFit.contain,
-          ),
-          Lottie.asset(
-            'assets/animations/slide_3.json',
-            fit: BoxFit.contain,
-          ),
-          Lottie.asset(
-            'assets/animations/slide_4.json',
-            fit: BoxFit.contain,
-          ),
+        background: const [
+          SizedBox(),
+          SizedBox(),
+          SizedBox(),
+          SizedBox(),
         ],
         totalPage: 4,
-        speed: 1.8,
+        speed: 1.5,
         pageBodies: [
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp),
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: Column(
               children: [
                 Text(
@@ -95,7 +83,12 @@ class AppOnBoarding extends StatelessWidget {
                     fontFamily: 'playFairDisplay',
                   ),
                 ),
-                const Spacer(),
+                Expanded(
+                  child: Lottie.asset(
+                    'assets/animations/slide_1.json',
+                    fit: BoxFit.contain,
+                  ),
+                ),
                 Text(
                   'Your Personal Cooking Companion',
                   style: TextStyle(
@@ -103,12 +96,12 @@ class AppOnBoarding extends StatelessWidget {
                     fontSize: 17.sp,
                   ),
                 ),
-                SizedBox(height: 30.sp),
+                SizedBox(height: 50.h),
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp),
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: Column(
               children: [
                 Text(
@@ -120,7 +113,12 @@ class AppOnBoarding extends StatelessWidget {
                     fontFamily: 'playFairDisplay',
                   ),
                 ),
-                const Spacer(),
+                Expanded(
+                  child: Lottie.asset(
+                    'assets/animations/slide_2.json',
+                    fit: BoxFit.contain,
+                  ),
+                ),
                 Text(
                   'Browse a wide variety of recipes from around the world',
                   style: TextStyle(
@@ -128,12 +126,12 @@ class AppOnBoarding extends StatelessWidget {
                     fontSize: 17.sp,
                   ),
                 ),
-                SizedBox(height: 30.sp),
+                SizedBox(height: 50.h),
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp),
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: Column(
               children: [
                 Text(
@@ -145,7 +143,12 @@ class AppOnBoarding extends StatelessWidget {
                     fontFamily: 'playFairDisplay',
                   ),
                 ),
-                const Spacer(),
+                Expanded(
+                  child: Lottie.asset(
+                    'assets/animations/slide_3.json',
+                    fit: BoxFit.contain,
+                  ),
+                ),
                 Text(
                   'Bookmark recipes you love and access them anytime',
                   style: TextStyle(
@@ -153,12 +156,12 @@ class AppOnBoarding extends StatelessWidget {
                     fontSize: 17.sp,
                   ),
                 ),
-                SizedBox(height: 30.sp),
+                SizedBox(height: 50.h),
               ],
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 15.sp),
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
             child: Column(
               children: [
                 Text(
@@ -170,7 +173,12 @@ class AppOnBoarding extends StatelessWidget {
                     fontFamily: 'playFairDisplay',
                   ),
                 ),
-                const Spacer(),
+                Expanded(
+                  child: Lottie.asset(
+                    'assets/animations/slide_4.json',
+                    fit: BoxFit.contain,
+                  ),
+                ),
                 Text(
                   'Start your culinary journey with CookPal now',
                   style: TextStyle(
@@ -178,7 +186,7 @@ class AppOnBoarding extends StatelessWidget {
                     fontSize: 17.sp,
                   ),
                 ),
-                SizedBox(height: 40.sp),
+                SizedBox(height: 100.h),
               ],
             ),
           ),
