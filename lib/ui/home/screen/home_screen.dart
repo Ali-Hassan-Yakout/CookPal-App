@@ -200,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               body: ListView(
                 padding: EdgeInsets.symmetric(
-                  horizontal: determineMargin() ? 300.w : 15.w,
+                  horizontal: determineMargin(context) ? 300.w : 15.w,
                 ),
                 physics: const BouncingScrollPhysics(),
                 children: [

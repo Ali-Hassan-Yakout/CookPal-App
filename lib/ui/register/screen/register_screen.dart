@@ -59,13 +59,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: Container(
                     padding: EdgeInsets.all(15.r),
                     margin: EdgeInsets.only(
                       bottom: 25.h,
-                      left: determineMargin() ? 300.w : 30.w,
-                      right: determineMargin() ? 300.w : 30.w,
+                      left: determineMargin(context) ? 300.w : 30.w,
+                      right: determineMargin(context) ? 300.w : 30.w,
                     ),
                     decoration: BoxDecoration(
                       color: primaryColor,

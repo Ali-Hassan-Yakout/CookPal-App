@@ -121,7 +121,7 @@ class _RecipeScreenState extends State<RecipeScreen> {
                         child: Padding(
                           padding: EdgeInsets.symmetric(
                             vertical: 15.h,
-                            horizontal: determineMargin() ? 300.w : 15.w,
+                            horizontal: determineMargin(context) ? 300.w : 15.w,
                           ),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,

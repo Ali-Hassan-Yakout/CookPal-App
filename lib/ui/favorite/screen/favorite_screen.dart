@@ -83,7 +83,7 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       physics: const BouncingScrollPhysics(),
       padding: EdgeInsets.symmetric(
         vertical: 14.h,
-        horizontal: determineMargin() ? 300.w : 15.w,
+        horizontal: determineMargin(context) ? 300.w : 15.w,
       ),
       itemCount: cubit.recipes.length,
       itemBuilder: (context, index) {

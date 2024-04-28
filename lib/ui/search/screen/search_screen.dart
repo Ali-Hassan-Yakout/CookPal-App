@@ -66,7 +66,7 @@ class _SearchScreenState extends State<SearchScreen> {
             return ListView(
               padding: EdgeInsets.symmetric(
                 vertical: 14.h,
-                horizontal: determineMargin() ? 300.w : 15.w,
+                horizontal: determineMargin(context) ? 300.w : 15.w,
               ),
               physics: const BouncingScrollPhysics(),
               children: [

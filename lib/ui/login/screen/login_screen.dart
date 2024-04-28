@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Expanded(
-                  flex: 3,
+                  flex: 2,
                   child: Container(
                     padding: EdgeInsets.symmetric(
                       vertical: 15.h,
@@ -66,8 +66,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     margin: EdgeInsets.only(
                       bottom: 25.h,
-                      left: determineMargin() ? 300.w : 30.w,
-                      right: determineMargin() ? 300.w : 30.w,
+                      left: determineMargin(context) ? 300.w : 30.w,
+                      right: determineMargin(context) ? 300.w : 30.w,
                     ),
                     decoration: BoxDecoration(
                       color: primaryColor,
