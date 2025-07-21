@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:cookpal/database/shared_preferences.dart';
+import 'package:cookpal/model/recipe.dart';
 import 'package:cookpal/ui/category/screen/category_screen.dart';
 import 'package:cookpal/ui/favorite/screen/favorite_screen.dart';
 import 'package:cookpal/ui/home/manager/home_cubit.dart';
@@ -37,8 +38,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     subscription = Connectivity()
         .onConnectivityChanged
-        .listen((ConnectivityResult connectivityResult) {
-      if (connectivityResult == ConnectivityResult.none) {
+        .listen((List<ConnectivityResult> result) {
+      if (result == ConnectivityResult.none) {
         Navigator.pushAndRemoveUntil(
           context,
           MaterialPageRoute(
@@ -49,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
     cubit.getUser();
-    cubit.getHome();
+    cubit.handleDynamicLinks();
   }
 
   @override
@@ -66,7 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
         listener: (context, state) {
           if (state is LogOutSuccess) {
             onLogOutSuccess();
+          } else if (state is LinkHandledSuccess) {
+            onLinkHandleSuccess();
           } else if (state is LogOutFailure) {
+            displayToast(state.errorMessage);
+          } else if (state is LinkHandledFailure) {
             displayToast(state.errorMessage);
           }
         },
@@ -233,7 +238,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           right: 20.w,
                           child: SmoothPageIndicator(
                             controller: pageController,
-                            // PageController
                             count: cubit.discover.length,
                             effect: SlideEffect(
                               activeDotColor: primaryIconColor,
@@ -334,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             height: 1.4.h,
                             color: Colors.white38,
                             fontSize: 16.sp,
-                            overflow: TextOverflow.fade,
+                            overflow: TextOverflow.clip,
                           ),
                         ),
                         SizedBox(height: 15.h),
@@ -526,7 +530,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 height: 1.2.h,
                                 color: Colors.white38,
                                 fontSize: 16.sp,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.clip,
                               ),
                             ),
                             SizedBox(height: 15.h),
@@ -590,6 +594,34 @@ class _HomeScreenState extends State<HomeScreen> {
       context,
       MaterialPageRoute(builder: (context) => const LoginScreen()),
       (route) => false,
+    );
+  }
+
+  void onLinkHandleSuccess() {
+    Recipe recipe = Recipe(
+      recipeId: "",
+      name: "",
+      description: "",
+      time: "",
+      level: "",
+      image: "",
+      discover: false,
+      categoryId: "",
+      ingredientsId: [],
+      instructions: "",
+    );
+    for (var element in cubit.recipes) {
+      if (element.recipeId == cubit.recipeId) {
+        recipe = element;
+      }
+    }
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => RecipeScreen(
+          recipe: recipe,
+        ),
+      ),
     );
   }
 

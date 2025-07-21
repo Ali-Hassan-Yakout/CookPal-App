@@ -26,6 +26,15 @@ class LogOutFailure extends HomeState {
   LogOutFailure(this.errorMessage);
 }
 
+class LinkHandledSuccess extends HomeState {}
+
+class LinkHandledFailure extends HomeState {
+  final String errorMessage;
+
+  LinkHandledFailure(this.errorMessage);
+}
+
+
 class ThemeChange extends HomeState {}
 
 

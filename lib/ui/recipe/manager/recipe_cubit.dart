@@ -4,7 +4,9 @@ import 'package:cookpal/model/ingredient.dart';
 import 'package:cookpal/model/recipe.dart';
 import 'package:cookpal/ui/recipe/manager/recipe_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RecipeCubit extends Cubit<RecipeState> {
   RecipeCubit() : super(RecipeInitial());
@@ -64,6 +66,29 @@ class RecipeCubit extends Cubit<RecipeState> {
     FirebaseFirestore.instance.collection('users').doc(userId).update({
       'favoriteRecipesId': FieldValue.arrayRemove([recipe.recipeId]),
     });
+  }
+
+  Future<void> shareRecipe(Recipe recipe) async {
+    final dynamicLinkParams = DynamicLinkParameters(
+      link: Uri.parse("https://www.cookpal.com/${recipe.recipeId}"),
+      uriPrefix: "https://cookpal.page.link",
+      androidParameters: AndroidParameters(
+        packageName: "com.example.cookpal",
+        fallbackUrl: Uri.parse("https://cookpal-ec834.web.app/"),
+      ),
+      socialMetaTagParameters: SocialMetaTagParameters(
+        title: "Try this recipe: ${recipe.name}",
+        description: "Cook this amazing dish in just ${recipe.time}!",
+        imageUrl: Uri.parse(recipe.image),
+      ),
+      navigationInfoParameters: const NavigationInfoParameters(
+        forcedRedirectEnabled:
+            true,
+      ),
+    );
+    final dynamicLink =
+        await FirebaseDynamicLinks.instance.buildShortLink(dynamicLinkParams);
+    Share.share('Check out this recipe: ${dynamicLink.shortUrl}');
   }
 
   void onFavoriteChange() => emit(FavoriteChange());

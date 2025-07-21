@@ -47,169 +47,182 @@ class _RecipeScreenState extends State<RecipeScreen> {
                       'assets/animations/loading.json',
                     ),
                   )
-                : CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        automaticallyImplyLeading: false,
-                        pinned: true,
-                        leading: IconButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          highlightColor: Colors.transparent,
-                          splashColor: Colors.transparent,
-                          icon: Icon(
-                            Icons.arrow_back_ios_new_rounded,
-                            color: Colors.grey[400],
-                            size: 22.r,
-                          ),
-                        ),
-                        title: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const SizedBox(),
-                            BlocBuilder<RecipeCubit, RecipeState>(
-                              buildWhen: (previous, current) =>
-                                  current is FavoriteChange,
-                              builder: (context, state) {
-                                return IconButton(
-                                  onPressed: () {
-                                    if (cubit.favorite) {
-                                      cubit.removeFavorite(widget.recipe);
-                                    } else {
-                                      cubit.addFavorite(widget.recipe);
-                                    }
-                                    cubit.favorite = !cubit.favorite;
-                                    cubit.onFavoriteChange();
-                                  },
-                                  highlightColor: Colors.transparent,
-                                  splashColor: Colors.transparent,
-                                  icon: Icon(
-                                    cubit.favorite
-                                        ? Icons.bookmark
-                                        : Icons.bookmark_border_outlined,
-                                    color: primaryIconColor,
-                                    size: 22.r,
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                        expandedHeight: 250.h,
-                        flexibleSpace: FlexibleSpaceBar(
-                          background: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Positioned.fill(
-                                child: Image.asset(
-                                  'assets/images/background.png',
-                                  fit: BoxFit.cover,
-                                ),
-                              ),
-                              Image.network(
-                                widget.recipe.image,
-                                width: 250.w,
-                                height: 250.h,
-                                fit: BoxFit.contain,
-                              ),
-                            ],
-                          ),
-                        ),
+                : Scaffold(
+                    floatingActionButton: FloatingActionButton(
+                      onPressed: () {
+                        cubit.shareRecipe(widget.recipe);
+                      },
+                      backgroundColor: primaryIconColor,
+                      child: const Icon(
+                        FontAwesomeIcons.share,
+                        color: Colors.white,
                       ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 15.h,
-                            horizontal: determineMargin(context) ? 300.w : 15.w,
+                    ),
+                    body: CustomScrollView(
+                      slivers: [
+                        SliverAppBar(
+                          automaticallyImplyLeading: false,
+                          pinned: true,
+                          leading: IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            highlightColor: Colors.transparent,
+                            splashColor: Colors.transparent,
+                            icon: Icon(
+                              Icons.arrow_back_ios_new_rounded,
+                              color: Colors.grey[400],
+                              size: 22.r,
+                            ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                widget.recipe.name,
-                                style: TextStyle(
-                                  color: secondaryColor,
-                                  fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'playFairDisplay',
-                                ),
-                              ),
-                              Text(
-                                widget.recipe.description,
-                                style: TextStyle(
-                                  height: 1.4.h,
-                                  color: Colors.grey[500],
-                                  fontSize: 17.sp,
-                                ),
-                              ),
-                              SizedBox(height: 15.h),
-                              Row(
-                                children: [
-                                  const Icon(
-                                    Icons.watch_later_outlined,
-                                    color: primaryIconColor,
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Text(
-                                    widget.recipe.time,
-                                    style: TextStyle(
-                                      color: secondaryColor,
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
+                              const SizedBox(),
+                              BlocBuilder<RecipeCubit, RecipeState>(
+                                buildWhen: (previous, current) =>
+                                    current is FavoriteChange,
+                                builder: (context, state) {
+                                  return IconButton(
+                                    onPressed: () {
+                                      if (cubit.favorite) {
+                                        cubit.removeFavorite(widget.recipe);
+                                      } else {
+                                        cubit.addFavorite(widget.recipe);
+                                      }
+                                      cubit.favorite = !cubit.favorite;
+                                      cubit.onFavoriteChange();
+                                    },
+                                    highlightColor: Colors.transparent,
+                                    splashColor: Colors.transparent,
+                                    icon: Icon(
+                                      cubit.favorite
+                                          ? Icons.bookmark
+                                          : Icons.bookmark_border_outlined,
+                                      color: primaryIconColor,
+                                      size: 22.r,
                                     ),
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  const Icon(
-                                    FontAwesomeIcons.kitchenSet,
-                                    color: primaryIconColor,
-                                  ),
-                                  SizedBox(width: 10.w),
-                                  Text(
-                                    widget.recipe.level,
-                                    style: TextStyle(
-                                      color: secondaryColor,
-                                      fontSize: 17.sp,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 20.h),
-                              Text(
-                                'Ingredients',
-                                style: TextStyle(
-                                  color: secondaryColor,
-                                  fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'playFairDisplay',
-                                ),
-                              ),
-                              SizedBox(height: 20.h),
-                              ingredientItemBuilder(),
-                              SizedBox(height: 20.h),
-                              Text(
-                                'Instructions',
-                                style: TextStyle(
-                                  color: secondaryColor,
-                                  fontSize: 22.sp,
-                                  fontWeight: FontWeight.bold,
-                                  fontFamily: 'playFairDisplay',
-                                ),
-                              ),
-                              Text(
-                                widget.recipe.instructions,
-                                style: TextStyle(
-                                  height: 1.4.h,
-                                  color: Colors.grey[500],
-                                  fontSize: 17.sp,
-                                ),
+                                  );
+                                },
                               ),
                             ],
                           ),
+                          expandedHeight: 250.h,
+                          flexibleSpace: FlexibleSpaceBar(
+                            background: Stack(
+                              alignment: Alignment.center,
+                              children: [
+                                Positioned.fill(
+                                  child: Image.asset(
+                                    'assets/images/background.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                Image.network(
+                                  widget.recipe.image,
+                                  width: 250.w,
+                                  height: 250.h,
+                                  fit: BoxFit.contain,
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                      )
-                    ],
+                        SliverToBoxAdapter(
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 15.h,
+                              horizontal:
+                                  determineMargin(context) ? 300.w : 15.w,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.recipe.name,
+                                  style: TextStyle(
+                                    color: secondaryColor,
+                                    fontSize: 22.sp,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'playFairDisplay',
+                                  ),
+                                ),
+                                Text(
+                                  widget.recipe.description,
+                                  style: TextStyle(
+                                    height: 1.4.h,
+                                    color: Colors.grey[500],
+                                    fontSize: 17.sp,
+                                  ),
+                                ),
+                                SizedBox(height: 15.h),
+                                Row(
+                                  children: [
+                                    const Icon(
+                                      Icons.watch_later_outlined,
+                                      color: primaryIconColor,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      widget.recipe.time,
+                                      style: TextStyle(
+                                        color: secondaryColor,
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    const Icon(
+                                      FontAwesomeIcons.kitchenSet,
+                                      color: primaryIconColor,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      widget.recipe.level,
+                                      style: TextStyle(
+                                        color: secondaryColor,
+                                        fontSize: 17.sp,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 20.h),
+                                Text(
+                                  'Ingredients',
+                                  style: TextStyle(
+                                    color: secondaryColor,
+                                    fontSize: 22.sp,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'playFairDisplay',
+                                  ),
+                                ),
+                                SizedBox(height: 20.h),
+                                ingredientItemBuilder(),
+                                SizedBox(height: 20.h),
+                                Text(
+                                  'Instructions',
+                                  style: TextStyle(
+                                    color: secondaryColor,
+                                    fontSize: 22.sp,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'playFairDisplay',
+                                  ),
+                                ),
+                                Text(
+                                  widget.recipe.instructions,
+                                  style: TextStyle(
+                                    height: 1.4.h,
+                                    color: Colors.grey[500],
+                                    fontSize: 17.sp,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
                   ),
           );
         },

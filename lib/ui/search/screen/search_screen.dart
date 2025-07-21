@@ -170,7 +170,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                 height: 1.4.h,
                                 color: Colors.white38,
                                 fontSize: 16.sp,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.clip,
                               ),
                             ),
                             SizedBox(height: 15.h),

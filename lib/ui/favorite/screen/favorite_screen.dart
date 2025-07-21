@@ -142,41 +142,49 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
                                 height: 1.4.h,
                                 color: Colors.white38,
                                 fontSize: 16.sp,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.clip,
                               ),
                             ),
                             SizedBox(height: 15.h),
-                            Row(
+                            Column(
                               children: [
-                                Icon(
-                                  Icons.watch_later_outlined,
-                                  color: primaryIconColor,
-                                  size: 18.r,
+                                Row(
+                                  children: [
+                                    Icon(
+                                      Icons.watch_later_outlined,
+                                      color: primaryIconColor,
+                                      size: 18.r,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      cubit.recipes[index].time,
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  cubit.recipes[index].time,
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 16.sp,
-                                  ),
-                                ),
-                                SizedBox(width: 10.w),
-                                Icon(
-                                  FontAwesomeIcons.kitchenSet,
-                                  color: primaryIconColor,
-                                  size: 18.r,
-                                ),
-                                SizedBox(width: 10.w),
-                                Text(
-                                  cubit.recipes[index].level,
-                                  style: TextStyle(
-                                    color: Colors.white70,
-                                    fontSize: 16.sp,
-                                  ),
+                                SizedBox(height: 10.h),
+                                Row(
+                                  children: [
+                                    Icon(
+                                      FontAwesomeIcons.kitchenSet,
+                                      color: primaryIconColor,
+                                      size: 18.r,
+                                    ),
+                                    SizedBox(width: 10.w),
+                                    Text(
+                                      cubit.recipes[index].level,
+                                      style: TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 16.sp,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ],
-                            )
+                            ),
                           ],
                         ),
                       ),

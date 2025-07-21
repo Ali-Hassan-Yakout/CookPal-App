@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "387257112747",
+    "firebase_url": "https://cookpal-ec834-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "cookpal-ec834",
     "storage_bucket": "cookpal-ec834.appspot.com"
   },
@@ -12,7 +13,12 @@
           "package_name": "com.example.cookpal"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "387257112747-j0g4s6e9bk4tpkdg5ld31t9s2bf8g3nc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyB5A1pSHVM_niHDL0N-_XJIYBN5az7z16Q"
@@ -20,7 +26,12 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387257112747-j0g4s6e9bk4tpkdg5ld31t9s2bf8g3nc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }

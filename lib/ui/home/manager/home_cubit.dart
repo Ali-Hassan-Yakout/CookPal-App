@@ -5,6 +5,7 @@ import 'package:cookpal/model/category.dart';
 import 'package:cookpal/model/recipe.dart';
 import 'package:cookpal/ui/home/manager/home_state.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -19,6 +20,7 @@ class HomeCubit extends Cubit<HomeState> {
   List<Category> categories = [];
   List<Recipe> recipes = [];
   List<Recipe> discover = [];
+  String? recipeId;
 
   Future<void> getHome() async {
     try {
@@ -77,6 +79,37 @@ class HomeCubit extends Cubit<HomeState> {
       emit(LogOutSuccess());
     } catch (error) {
       emit(LogOutFailure('Failed to logout'));
+    }
+  }
+
+  void handleDynamicLinks() async {
+    await getHome();
+    // Handle the link that opened the app
+    final PendingDynamicLinkData? data =
+    await FirebaseDynamicLinks.instance.getInitialLink();
+    _processDynamicLink(data);
+
+    // Handle dynamic links while the app is running
+    FirebaseDynamicLinks.instance.onLink.listen((PendingDynamicLinkData? data) {
+      _processDynamicLink(data);
+    }).onError((error) {
+      emit(LinkHandledFailure('Failed to handle dynamic link'));
+    });
+  }
+
+  /// Process the deep link and navigate to the recipe screen
+  void _processDynamicLink(PendingDynamicLinkData? data) {
+    final Uri? deepLink = data?.link;
+
+    if (deepLink != null) {
+      // Check if the link matches the expected pattern
+      if (deepLink.host == 'www.cookpal.com') {
+        recipeId =
+        deepLink.pathSegments.isNotEmpty ? deepLink.pathSegments[0] : null;
+        if (recipeId != null){
+          emit(LinkHandledSuccess());
+        }
+      }
     }
   }
 
